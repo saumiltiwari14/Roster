@@ -2,8 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "experimentalServices": {
     "frontend": {
-      "entrypoint": "public",
-      "routePrefix": "/"
+      "entrypoint": "public/index.html",
+      "routePrefix": "/",
+      "includeFiles": "public/**"
     },
     "backend": {
       "entrypoint": "backend",
