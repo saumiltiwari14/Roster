@@ -1,0 +1,17 @@
+{
+  "name": "roster",
+  "private": true,
+  "main": "api/index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2",
+    "mongoose": "^9.5.0"
+  }
+}
