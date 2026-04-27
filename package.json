@@ -1,7 +1,7 @@
 {
   "name": "roster",
   "private": true,
-  "main": "api/index.js",
+  "main": "server.js",
   "engines": {
     "node": ">=18"
   },
