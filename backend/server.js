@@ -1,5 +1,6 @@
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
 const express = require("express");
 const cors = require("cors");
@@ -20,6 +21,17 @@ const {
 
 const app = express();
 
+/** Strip Services route prefix so existing `/api/*` routes match (see vercel.json experimentalServices). */
+const BACKEND_ROUTE_PREFIX = "/_/backend";
+app.use((req, _res, next) => {
+  if (typeof req.url === "string" && req.url.startsWith(BACKEND_ROUTE_PREFIX)) {
+    req.url = req.url.slice(BACKEND_ROUTE_PREFIX.length) || "/";
+  }
+  next();
+});
+
+app.set("trust proxy", 1);
+
 /* ===========================
    ✅ MIDDLEWARES
 =========================== */
@@ -29,11 +41,11 @@ app.use(express.json());
 /* ===========================
    ✅ SERVE FRONTEND
 =========================== */
-const frontendPath = path.join(__dirname, "..", "frontend");
-app.use(express.static(frontendPath));
+const publicPath = path.join(__dirname, "..", "public");
+app.use(express.static(publicPath));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+  res.sendFile(path.join(publicPath, "index.html"));
 });
 
 app.get("/api/health", async (req, res) => {
