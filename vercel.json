@@ -2,9 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "experimentalServices": {
     "frontend": {
-      "entrypoint": "public/index.html",
+      "entrypoint": "frontend/server.js",
       "routePrefix": "/",
-      "includeFiles": "public/**"
+      "framework": "express",
+      "maxDuration": 30
     },
     "backend": {
       "entrypoint": "backend",
