@@ -137,6 +137,7 @@
     </section>
   </main>
 
+  <script src="api-config.js"></script>
   <script>
     const form = document.getElementById("applyForm");
     const msg = document.getElementById("msg");
@@ -176,7 +177,7 @@
 
     async function loadEmployees() {
       try {
-        const res = await fetch("/api/employees");
+        const res = await fetch(apiUrl("/api/employees"));
         const data = await res.json();
         if (!res.ok) throw new Error("bad response");
 
@@ -209,7 +210,7 @@
     }
 
     async function loadBalances() {
-      const res = await fetch("/api/balances");
+      const res = await fetch(apiUrl("/api/balances"));
       const data = await res.json();
       const tbody = document.getElementById("balanceTable");
       tbody.innerHTML = "";
@@ -223,7 +224,7 @@
     }
 
     async function loadShiftPreferences() {
-      const res = await fetch("/api/shift-preferences");
+      const res = await fetch(apiUrl("/api/shift-preferences"));
       const data = await res.json();
       const tbody = document.getElementById("shiftPrefTable");
       tbody.innerHTML = "";
@@ -248,7 +249,7 @@
     }
 
     async function loadApplications() {
-      const res = await fetch("/api/applications");
+      const res = await fetch(apiUrl("/api/applications"));
       const data = await res.json();
       const tbody = document.getElementById("applicationTable");
       tbody.innerHTML = "";
@@ -281,7 +282,7 @@
         type: typeSelect.value
       };
 
-      const res = await fetch("/api/apply", {
+      const res = await fetch(apiUrl("/api/apply"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
@@ -327,7 +328,7 @@
         return;
       }
 
-      const res = await fetch("/api/shift-preference", {
+      const res = await fetch(apiUrl("/api/shift-preference"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
