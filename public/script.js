@@ -2,6 +2,10 @@
 
 const IST_TZ = "Asia/Kolkata";
 
+function apiFetchUrl(path) {
+  return typeof window.apiUrl === "function" ? window.apiUrl(path) : path;
+}
+
 let rosterState = /** @type {RosterEntry[]} */ ([]);
 let absencesByDate = {};
 let slotsOrder = /** @type {string[]} */ ([]);
@@ -199,7 +203,7 @@ async function persistRoster(swapNote) {
   };
   if (swapNote) body.swapNote = swapNote;
 
-  const res = await fetch("/api/roster/custom", {
+  const res = await fetch(apiFetchUrl("/api/roster/custom"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body)
@@ -252,7 +256,9 @@ function renderSwapLogPanel() {
 async function resetToAutoRoster() {
   if (!confirm("Reset this month to auto-generated roster?")) return;
   const res = await fetch(
-    `/api/roster/custom?year=${viewYear}&month=${viewMonth}`,
+    apiFetchUrl(
+      `/api/roster/custom?year=${viewYear}&month=${viewMonth}`
+    ),
     { method: "DELETE" }
   );
   if (!res.ok) {
@@ -264,7 +270,9 @@ async function resetToAutoRoster() {
 
 async function loadRoster() {
   try {
-    const r = await fetch(`/api/roster?year=${viewYear}&month=${viewMonth}`);
+    const r = await fetch(
+      apiFetchUrl(`/api/roster?year=${viewYear}&month=${viewMonth}`)
+    );
     const payload = await r.json();
     if (!r.ok) {
       lastEmployeeCount = -1;
@@ -321,13 +329,13 @@ function renderRosterCanvas() {
       detail =
         `<p class="sheet-empty-text">MongoDB has <strong>${lastEmployeeCount}</strong> team member(s). The roster needs at least <strong>2</strong>.</p>` +
         `<p class="sheet-empty-text">In PowerShell: <code>cd backend</code> → <code>npm run seed</code> (adds sample names). Or add people in Atlas / Compass.</p>` +
-        `<p class="sheet-empty-text">Set <code>MONGODB_URI</code> in <code>backend/.env</code> (see <code>.env.example</code>). Check DB: <a href="/api/health" target="_blank" rel="noopener">/api/health</a></p>`;
+        `<p class="sheet-empty-text">Set <code>MONGODB_URI</code> in <code>backend/.env</code> (see <code>.env.example</code>). Check DB: <a href="${apiFetchUrl("/api/health")}" target="_blank" rel="noopener">/api/health</a></p>`;
     } else if (lastEmployeeCount >= 2) {
       detail =
         `<p class="sheet-empty-text">Employees exist (${lastEmployeeCount}) but roster is empty — check server terminal for errors, or click <strong>Reset month</strong>.</p>`;
     } else {
       detail =
-        `<p class="sheet-empty-text">Could not load roster (API or MongoDB). Start backend with <code>npm start</code>, use <code>http://localhost:3000</code>, and verify <a href="/api/health" target="_blank" rel="noopener">/api/health</a> shows <code>mongo: true</code>.</p>`;
+        `<p class="sheet-empty-text">Could not load roster (API or MongoDB). Start backend with <code>npm start</code>, use <code>http://localhost:3000</code>, and verify <a href="${apiFetchUrl("/api/health")}" target="_blank" rel="noopener">/api/health</a> shows <code>mongo: true</code>.</p>`;
     }
     grid.innerHTML =
       `<div class="sheet-empty">
@@ -480,7 +488,7 @@ async function getTodayRosterRows() {
     return rosterState;
   }
   try {
-    const r = await fetch(`/api/roster?year=${y}&month=${m}`);
+    const r = await fetch(apiFetchUrl(`/api/roster?year=${y}&month=${m}`));
     const p = await r.json();
     if (!r.ok || p.error) return [];
     return p.roster || [];
