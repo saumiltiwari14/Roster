@@ -439,12 +439,16 @@ app.delete("/api/applications/:id", async (req, res) => {
 });
 
 /* ===========================
-   ✅ START SERVER
+   ✅ START SERVER (local only — Vercel uses api/index.js entry)
 =========================== */
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Backend running at http://localhost:${PORT}`);
-  connectDB().catch(err =>
-    console.error("[db] Warm-up connection:", err.message)
-  );
-});
+module.exports = app;
+
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`✅ Backend running at http://localhost:${PORT}`);
+    connectDB().catch(err =>
+      console.error("[db] Warm-up connection:", err.message)
+    );
+  });
+}
