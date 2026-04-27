@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roster</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="page-roster">
+
+  <header class="shell-head">
+    <div>
+      <h1 id="monthTitle" class="shell-title">Roster</h1>
+      <p class="shell-meta">Coverage 7:30 AM – 8:30 PM IST · 2-hour slots · Primary &amp; backup per slot</p>
+    </div>
+    <div class="shell-actions">
+      <a href="apply.html" class="btn-solid">Leave / comp‑off</a>
+      <button type="button" class="btn-quiet" id="btnResetRoster" hidden>Reset month</button>
+    </div>
+  </header>
+
+  <main class="shell-main">
+    <div class="banner-min" id="customBanner" hidden>Manual edits saved for this month.</div>
+
+    <nav class="nav-month">
+      <button type="button" class="btn-month" data-delta="-2">−2</button>
+      <button type="button" class="btn-month" data-delta="-1">Prev</button>
+      <span id="monthNavLabel" class="nav-month-label"></span>
+      <button type="button" class="btn-month" data-delta="1">Next</button>
+      <button type="button" class="btn-month" data-delta="2">+2</button>
+      <button type="button" class="btn-month nav-today" id="btnThisMonth">Today</button>
+    </nav>
+
+    <div class="toolbar-mini">
+      <span class="leg"><i class="lg p"></i> Primary</span>
+      <span class="leg"><i class="lg b"></i> Backup</span>
+      <span class="leg"><i class="lg w"></i> Weekend</span>
+      <button type="button" class="btn-jump" onclick="scrollToToday()">Today column</button>
+    </div>
+
+    <section class="live-duty" id="liveDuty" aria-live="polite">
+      <div class="live-duty-inner">
+        <div class="live-duty-head">
+          <span class="live-duty-badge">Live</span>
+          <span class="live-duty-title">On duty now (IST)</span>
+        </div>
+        <p class="live-duty-date" id="liveDutyDate"></p>
+        <p class="live-duty-slot" id="liveDutySlot">—</p>
+        <div class="live-duty-grid">
+          <div class="live-duty-p">
+            <span class="live-duty-label">Primary</span>
+            <strong id="liveDutyPrimary">—</strong>
+          </div>
+          <div class="live-duty-b">
+            <span class="live-duty-label">Backup</span>
+            <strong id="liveDutyBackup">—</strong>
+          </div>
+        </div>
+        <p class="live-duty-note" id="liveDutyNote"></p>
+      </div>
+    </section>
+
+    <div class="sheet-wrap">
+      <div id="container" class="sheet-scroll">
+        <div id="grid" class="sheet-grid"></div>
+      </div>
+    </div>
+
+    <footer class="footer-swap">
+      <h2 class="footer-swap-h">Swap log</h2>
+      <div id="swapLogPanel"></div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
